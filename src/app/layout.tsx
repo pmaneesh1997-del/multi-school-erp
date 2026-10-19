@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Educ-core | Multi-school ERP",
+  title: "Kartik Education | Multi-school ERP",
   description: "One connected workspace for every campus, classroom, and school team.",
 };
 

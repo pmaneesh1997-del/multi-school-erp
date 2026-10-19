@@ -2,32 +2,20 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   Bell,
-  BookOpenCheck,
   CalendarDays,
   ChevronDown,
-  CircleHelp,
   Clock3,
   CreditCard,
   Ellipsis,
   GraduationCap,
-  LayoutDashboard,
   Search,
   Settings2,
   UsersRound,
 } from "lucide-react";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { signOut } from "@/app/actions/auth";
 import { getSession } from "@/lib/auth/session";
-
-const navigation = [
-  { label: "Overview", icon: LayoutDashboard, active: true },
-  { label: "Students", icon: GraduationCap, badge: "2,418" },
-  { label: "Staff & teachers", icon: UsersRound },
-  { label: "Academics", icon: BookOpenCheck },
-  { label: "Attendance", icon: CalendarDays },
-  { label: "Finance", icon: CreditCard },
-];
+import { ErpSidebar } from "@/components/erp-sidebar";
 
 const students = [
   { name: "Aarav Sharma", initials: "AS", color: "coral", id: "STU-24018", grade: "Grade 8 · A", school: "Northwood Academy", status: "Active" },
@@ -72,49 +60,7 @@ async function Dashboard() {
 
   return (
     <main className="erp-shell">
-      <aside className="sidebar">
-        <a className="brand" href="#overview" aria-label="Educore home">
-          <span className="brand-mark"><span /><span /><span /><span /></span>
-          <span className="brand-name">ed<strong>ucore</strong><small>LEARNING, CONNECTED</small></span>
-        </a>
-
-        <button className="school-switcher">
-          <span className="school-monogram">N</span>
-          <span className="school-copy"><strong>Northstar Group</strong><small>School group</small></span>
-          <ChevronDown size={16} />
-        </button>
-
-        <div className="nav-section-label">WORKSPACE</div>
-        <nav className="main-nav" aria-label="Main navigation">
-          {navigation.map(({ label, icon: Icon, active, badge }) => (
-            <a key={label} className={`nav-link ${active ? "selected" : ""}`} href={`#${label.toLowerCase().replaceAll(" ", "-")}`}>
-              <Icon size={18} strokeWidth={1.8} /><span>{label}</span>{badge && <small>{badge}</small>}
-            </a>
-          ))}
-        </nav>
-
-        <div className="nav-section-label management-label">MANAGEMENT</div>
-        <nav className="main-nav" aria-label="Management navigation">
-          <a className="nav-link" href="#reports"><BookOpenCheck size={18} strokeWidth={1.8} /><span>Reports</span></a>
-          <a className="nav-link" href="#settings"><Settings2 size={18} strokeWidth={1.8} /><span>Settings</span></a>
-        </nav>
-
-        <div className="sidebar-bottom">
-          <div className="support-card">
-            <span className="support-icon"><CircleHelp size={18} /></span>
-            <strong>Need a hand?</strong>
-            <p>Our team is here to help you.</p>
-            <a href="mailto:support@educore.school">Contact support <ArrowUpRight size={13} /></a>
-          </div>
-          <form action={signOut}>
-            <button className="profile-row" type="submit" title="Sign out">
-              <span className="avatar admin-avatar">{session.name.split(" ").map((part) => part[0]).slice(0, 2).join("")}</span>
-              <span className="profile-copy"><strong>{session.name}</strong><small>{session.role.replaceAll("_", " ")}</small></span>
-              <Ellipsis size={18} />
-            </button>
-          </form>
-        </div>
-      </aside>
+      <ErpSidebar userName={session.name} userRole={session.role} />
 
       <section className="workspace" id="overview">
         <header className="topbar">
@@ -208,7 +154,7 @@ async function Dashboard() {
             <div className="table-footer"><span>Showing <strong>4</strong> of <strong>8,942</strong> students</span><div><button disabled aria-label="Previous page">‹</button><button className="page-current">1</button><button>2</button><button>3</button><span>...</span><button>2,236</button><button aria-label="Next page">›</button></div></div>
           </section>
 
-          <footer className="dashboard-footer"><span>© 2024 Educ-core Technologies</span><span><Clock3 size={13} /> Last synced 2 minutes ago</span></footer>
+          <footer className="dashboard-footer"><span>© 2026 Kartik Education</span><span><Clock3 size={13} /> Last synced 2 minutes ago</span></footer>
         </div>
       </section>
     </main>

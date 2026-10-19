@@ -5,8 +5,22 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1792434003907,
-      "tag": "0000_puzzling_domino",
+      "when": 1792441758563,
+      "tag": "0000_watery_sumo",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1760940000000,
+      "tag": "0001_missing_tables_and_admin",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1760940100000,
+      "tag": "0002_full_reset_and_admin",
       "breakpoints": true
     }
   ]

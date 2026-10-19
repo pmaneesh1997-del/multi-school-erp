@@ -1,21 +1,19 @@
-import "server-only";
-
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
-import * as schema from "@/lib/db/schema";
+import * as schema from "./schema";
 
-const globalForMysql = globalThis as typeof globalThis & {
-  mysqlPool?: mysql.Pool;
-};
+const pool = mysql.createPool({
+  host: process.env.DB_HOST ?? "localhost",
+  port: Number(process.env.DB_PORT ?? 3306),
+  user: process.env.DB_USERNAME ?? "root",
+  password: process.env.DB_PASSWORD || undefined,
+  database: process.env.DB_DATABASE ?? "multi_school_erp",
+  waitForConnections: true,
+  connectionLimit: 10,
+});
+
+export const db = drizzle(pool, { schema, mode: "default" });
 
 export function getDb() {
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) {
-    throw new Error("DATABASE_URL is not set. Copy .env.example to .env.local and configure MySQL.");
-  }
-
-  const pool = globalForMysql.mysqlPool ?? mysql.createPool(databaseUrl);
-  if (process.env.NODE_ENV !== "production") globalForMysql.mysqlPool = pool;
-
-  return drizzle(pool, { schema, mode: "default" });
+  return db;
 }

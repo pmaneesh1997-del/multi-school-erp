@@ -1,10 +1,15 @@
+import "dotenv/config";
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
+  dialect: "mysql",
   schema: "./src/lib/db/schema.ts",
   out: "./drizzle",
-  dialect: "mysql",
   dbCredentials: {
-    url: process.env.DATABASE_URL ?? "mysql://root:password@localhost:3306/multi_school_erp",
+    host: process.env.DB_HOST ?? "localhost",
+    port: Number(process.env.DB_PORT ?? 3306),
+    user: process.env.DB_USERNAME ?? "root",
+    password: process.env.DB_PASSWORD || undefined,
+    database: process.env.DB_DATABASE ?? "multi_school_erp",
   },
 });

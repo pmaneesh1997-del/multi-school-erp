@@ -19,7 +19,7 @@ async function SignInContent({ searchParams }: { searchParams: Promise<{ error?:
       <section className="sign-in-aside">
         <Link className="brand sign-in-brand" href="/">
           <span className="brand-mark"><span /><span /><span /><span /></span>
-          <span className="brand-name">ed<strong>ucore</strong><small>LEARNING, CONNECTED</small></span>
+          <span className="brand-name">Kartik<strong> Education</strong><small>LEARNING, CONNECTED</small></span>
         </Link>
         <div className="sign-in-message">
           <span className="sign-in-kicker">ONE SCHOOL GROUP. ONE SHARED VISION.</span>
@@ -33,7 +33,7 @@ async function SignInContent({ searchParams }: { searchParams: Promise<{ error?:
             <span className="illustration-star star-one">✳</span><span className="illustration-star star-two">✦</span>
           </div>
         </div>
-        <div className="sign-in-aside-footer"><span>© 2024 Educ-core Technologies</span><span>Thoughtfully designed for education</span></div>
+        <div className="sign-in-aside-footer"><span>© 2026 Kartik Education</span><span>Thoughtfully designed for education</span></div>
       </section>
 
       <section className="sign-in-main">
@@ -46,13 +46,13 @@ async function SignInContent({ searchParams }: { searchParams: Promise<{ error?:
           <form action={signIn} className="sign-in-form">
             <label htmlFor="email">Work email</label>
             <input id="email" name="email" type="email" autoComplete="username" placeholder="you@school.org" required />
-            <div className="password-label"><label htmlFor="password">Password</label><a href="mailto:support@educore.school?subject=Password%20reset">Forgot password?</a></div>
+            <div className="password-label"><label htmlFor="password">Password</label><a href="mailto:support@kartik.education?subject=Password%20reset">Forgot password?</a></div>
             <input id="password" name="password" type="password" autoComplete="current-password" placeholder="Enter your password" required />
             <button type="submit">Sign in <ArrowRight size={16} /></button>
           </form>
-          <div className="sign-in-help">Having trouble accessing your account? <a href="mailto:support@educore.school">Contact support</a></div>
+          <div className="sign-in-help">Having trouble accessing your account? <a href="mailto:support@kartik.education">Contact support</a></div>
         </div>
-        <div className="sign-in-mobile-brand"><span className="brand-mark"><span /><span /><span /><span /></span> Educ<strong>core</strong></div>
+        <div className="sign-in-mobile-brand"><span className="brand-mark"><span /><span /><span /><span /></span> Kartik <strong>Education</strong></div>
       </section>
     </main>
   );
