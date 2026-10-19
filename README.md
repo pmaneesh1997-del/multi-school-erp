@@ -37,3 +37,4 @@ Keep authorization checks server-side and scope every school-owned query by the 
 - `npm run db:generate` creates SQL migrations from the Drizzle schema.
 - `npm run db:migrate` applies pending migrations.
 - `npm run db:studio` opens Drizzle Studio.
+# multi-school-erp
