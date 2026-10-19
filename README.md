@@ -11,7 +11,7 @@ A multi-campus school operations workspace built with Next.js 16, React 19, Type
 
 1. Install packages with `npm install`.
 2. Create a MySQL database named `multi_school_erp` (or change the database name in the connection URL).
-3. Copy `.env.example` to `.env.local` and set `DATABASE_URL` to your MySQL connection string.
+3. Copy `.env.example` to `.env.local` and set `DATABASE_URL` to your MySQL connection string. Next.js loads `.env.local` automatically; set the same variable in your shell when running Drizzle CLI commands.
 4. Generate and apply the initial schema:
 
    ```bash

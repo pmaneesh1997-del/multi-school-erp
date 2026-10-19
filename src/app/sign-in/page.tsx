@@ -1,16 +1,26 @@
 import { ArrowRight, GraduationCap } from "lucide-react";
+import Link from "next/link";
+import { Suspense } from "react";
 import { signIn } from "@/app/actions/auth";
 
-export default async function SignInPage({ searchParams }: PageProps<"/sign-in">) {
+export default function SignInPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  return (
+    <Suspense fallback={<main className="sign-in-shell"><div className="sign-in-aside" /><div className="sign-in-main"><div className="sign-in-card">Loading sign-in...</div></div></main>}>
+      <SignInContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function SignInContent({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const { error } = await searchParams;
 
   return (
     <main className="sign-in-shell">
       <section className="sign-in-aside">
-        <a className="brand sign-in-brand" href="/">
+        <Link className="brand sign-in-brand" href="/">
           <span className="brand-mark"><span /><span /><span /><span /></span>
           <span className="brand-name">ed<strong>ucore</strong><small>LEARNING, CONNECTED</small></span>
-        </a>
+        </Link>
         <div className="sign-in-message">
           <span className="sign-in-kicker">ONE SCHOOL GROUP. ONE SHARED VISION.</span>
           <h1>Every campus,<br />moving forward.</h1>
