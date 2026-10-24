@@ -2,8 +2,8 @@ import "server-only";
 
 import { createHash, randomBytes } from "node:crypto";
 import { and, eq, gt } from "drizzle-orm";
-import { unstable_noStore as noStore } from "next/cache";
 import { cookies } from "next/headers";
+import { connection } from "next/server";
 import { getDb } from "@/lib/db";
 import { sessions, users } from "@/lib/db/schema";
 
@@ -30,11 +30,11 @@ export async function createSession(userId: number) {
 }
 
 export async function getSession() {
-  noStore();
+  await connection();
 
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
-  if (!token || !process.env.DATABASE_URL) return null;
+  if (!token) return null;
 
   const [session] = await getDb()
     .select({

@@ -1,4 +1,5 @@
 import {
+  date,
   datetime,
   index,
   int,
@@ -94,3 +95,57 @@ export const attendance = mysqlTable("attendance", {
   status: varchar("status", { length: 24 }).notNull(),
   recordedBy: int("recorded_by").references(() => users.id, { onDelete: "set null" }),
 }, (table) => [uniqueIndex("attendance_student_date_unique").on(table.studentId, table.attendanceDate), index("attendance_school_date_idx").on(table.schoolId, table.attendanceDate)]);
+
+export const employees = mysqlTable("employees", {
+  id: int("id").autoincrement().primaryKey(),
+  schoolId: int("school_id").notNull().references(() => schools.id, { onDelete: "cascade" }),
+  employeeCode: varchar("employee_code", { length: 40 }).notNull(),
+  name: varchar("name", { length: 160 }).notNull(),
+  email: varchar("email", { length: 254 }).notNull(),
+  phone: varchar("phone", { length: 24 }),
+  department: varchar("department", { length: 100 }).notNull(),
+  designation: varchar("designation", { length: 100 }).notNull(),
+  employmentType: mysqlEnum("employment_type", ["full_time", "part_time", "contract"]).notNull().default("full_time"),
+  monthlySalary: int("monthly_salary").notNull(),
+  pfDeduction: int("pf_deduction").notNull().default(0),
+  esiDeduction: int("esi_deduction").notNull().default(0),
+  professionalTax: int("professional_tax").notNull().default(0),
+  status: mysqlEnum("status", ["active", "inactive"]).notNull().default("active"),
+  joinedOn: date("joined_on", { mode: "string" }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [uniqueIndex("employees_school_code_unique").on(table.schoolId, table.employeeCode), index("employees_school_idx").on(table.schoolId)]);
+
+export const employeeAttendance = mysqlTable("employee_attendance", {
+  id: int("id").autoincrement().primaryKey(),
+  employeeId: int("employee_id").notNull().references(() => employees.id, { onDelete: "cascade" }),
+  attendanceDate: date("attendance_date", { mode: "string" }).notNull(),
+  status: mysqlEnum("status", ["present", "absent", "late", "half_day"]).notNull(),
+  checkIn: varchar("check_in", { length: 8 }),
+  checkOut: varchar("check_out", { length: 8 }),
+  recordedBy: int("recorded_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [uniqueIndex("employee_attendance_employee_date_unique").on(table.employeeId, table.attendanceDate), index("employee_attendance_date_idx").on(table.attendanceDate)]);
+
+export const leaveRequests = mysqlTable("leave_requests", {
+  id: int("id").autoincrement().primaryKey(),
+  employeeId: int("employee_id").notNull().references(() => employees.id, { onDelete: "cascade" }),
+  leaveType: mysqlEnum("leave_type", ["casual", "sick", "unpaid"]).notNull(),
+  startDate: date("start_date", { mode: "string" }).notNull(),
+  endDate: date("end_date", { mode: "string" }).notNull(),
+  reason: varchar("reason", { length: 500 }).notNull(),
+  status: mysqlEnum("status", ["pending", "approved", "rejected"]).notNull().default("pending"),
+  reviewedBy: int("reviewed_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [index("leave_requests_employee_idx").on(table.employeeId), index("leave_requests_status_idx").on(table.status)]);
+
+export const payrollEntries = mysqlTable("payroll_entries", {
+  id: int("id").autoincrement().primaryKey(),
+  employeeId: int("employee_id").notNull().references(() => employees.id, { onDelete: "cascade" }),
+  period: varchar("period", { length: 7 }).notNull(),
+  grossPay: int("gross_pay").notNull(),
+  deductions: int("deductions").notNull().default(0),
+  netPay: int("net_pay").notNull(),
+  status: mysqlEnum("status", ["draft", "paid"]).notNull().default("draft"),
+  paidAt: datetime("paid_at", { mode: "date" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [uniqueIndex("payroll_employee_period_unique").on(table.employeeId, table.period), index("payroll_period_idx").on(table.period)]);

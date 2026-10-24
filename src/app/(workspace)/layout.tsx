@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
 import { ErpWorkspaceShell } from "@/components/erp-workspace-shell";
 
+export const instant = false;
+
 export default function WorkspaceLayout({ children }: LayoutProps<"/">) {
   return <Suspense fallback={<div className="page-loading">Loading your school workspace...</div>}><AuthenticatedWorkspace>{children}</AuthenticatedWorkspace></Suspense>;
 }

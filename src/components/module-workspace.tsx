@@ -180,7 +180,7 @@ const modules: Record<ModuleKey, ModuleData> = {
     columns: ["SETTING", "CURRENT VALUE", "LAST UPDATED", "OWNER", "STATUS"],
     rows: [
       { id: "SET-001", cells: ["Organisation profile", "Kartik Education Group", "Oct 14, 2024", "Group owner", "Configured"], status: "Configured", tone: "good" },
-      { id: "SET-002", cells: ["Academic year", "2024–25", "Aug 18, 2024", "Group owner", "Active"], status: "Active", tone: "good" },
+      { id: "SET-002", cells: ["Academic year", "2026–27", "Oct 24, 2026", "Group owner", "Active"], status: "Active", tone: "good" },
       { id: "SET-003", cells: ["Default timezone", "Asia/Kolkata", "Aug 18, 2024", "Group owner", "Configured"], status: "Configured", tone: "good" },
       { id: "SET-004", cells: ["Multi-factor authentication", "Optional", "Not configured", "Group owner", "Recommended"], status: "Recommended", tone: "warning" },
     ],
@@ -194,6 +194,7 @@ export function ModuleWorkspace({ module }: { module: ModuleKey }) {
   const data = modules[module];
   const [activeTab, setActiveTab] = useState(data.tabs[0]);
   const [query, setQuery] = useState("");
+  const [actionNotice, setActionNotice] = useState(false);
   const filteredRows = useMemo(() => data.rows.filter((row) => row.cells.join(" ").toLowerCase().includes(query.toLowerCase())), [data.rows, query]);
 
   return (
@@ -204,8 +205,9 @@ export function ModuleWorkspace({ module }: { module: ModuleKey }) {
           <h1>{data.title}</h1>
           <p className="welcome-subtitle">{data.description}</p>
         </div>
-        <button className="primary-button" type="button" onClick={() => window.alert(`${data.action} is being connected to your live school data.`)}><Plus size={16} /> {data.action}</button>
+        <button className="primary-button" type="button" onClick={() => setActionNotice(true)}><Plus size={16} /> {data.action}</button>
       </div>
+      {actionNotice && <p className="module-action-notice" role="status">This {data.title.toLowerCase()} screen is a preview. No record was saved because its data form is not connected yet.</p>}
 
       <section className="metric-grid module-metrics" aria-label={`${data.title} summary`}>
         {data.stats.map((stat) => {
@@ -217,7 +219,7 @@ export function ModuleWorkspace({ module }: { module: ModuleKey }) {
         })}
       </section>
 
-      {module === "academics" && <section className="academic-spotlight panel"><div className="spotlight-symbol"><BookOpenCheck size={20} /></div><div><span className="spotlight-kicker">CURRENT TERM</span><h2>Term 1 · 2024–25</h2><p>Week 8 of 13 <span className="spotlight-separator">·</span> 62% complete</p></div><div className="spotlight-progress"><span style={{ width: "62%" }} /></div><button type="button" aria-label="Term options" className="icon-button"><MoreHorizontal size={19} /></button></section>}
+      {module === "academics" && <section className="academic-spotlight panel"><div className="spotlight-symbol"><BookOpenCheck size={20} /></div><div><span className="spotlight-kicker">CURRENT TERM</span><h2>Term 1 · 2026–27</h2><p>Week 8 of 13 <span className="spotlight-separator">·</span> 62% complete</p></div><div className="spotlight-progress"><span style={{ width: "62%" }} /></div><button type="button" aria-label="Term options" className="icon-button"><MoreHorizontal size={19} /></button></section>}
       {module === "reports" && <section className="report-shortcuts" aria-label="Report shortcuts"><a href="#attendance-report"><span className="shortcut-icon shortcut-coral"><CalendarDays size={18} /></span><span><strong>Attendance</strong><small>Daily, weekly, campus</small></span><ArrowUpRight size={16} /></a><a href="#enrolment-report"><span className="shortcut-icon shortcut-blue"><GraduationCap size={18} /></span><span><strong>Enrolment</strong><small>Admissions and student totals</small></span><ArrowUpRight size={16} /></a><a href="#finance-report"><span className="shortcut-icon shortcut-green"><CircleDollarSign size={18} /></span><span><strong>Finance</strong><small>Collections and balances</small></span><ArrowUpRight size={16} /></a></section>}
       {module === "settings" && <section className="settings-groups"><article className="settings-group"><span className="settings-group-icon"><GraduationCap size={17} /></span><div><strong>Organisation</strong><p>Group profile, academic year, language, and timezone.</p></div><span className="settings-group-state">4 items <ArrowUpRight size={14} /></span></article><article className="settings-group"><span className="settings-group-icon settings-icon-blue"><UsersRound size={17} /></span><div><strong>People &amp; access</strong><p>Team members, permission roles, and sign-in security.</p></div><span className="settings-group-state">32 members <ArrowUpRight size={14} /></span></article><article className="settings-group"><span className="settings-group-icon settings-icon-gold"><CreditCard size={17} /></span><div><strong>Subscription &amp; billing</strong><p>Plan, payment method, and payment history.</p></div><a className="settings-group-state" href="/billing">Manage billing <ArrowUpRight size={14} /></a></article></section>}
 

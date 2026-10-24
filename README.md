@@ -12,7 +12,7 @@ A multi-campus school operations workspace built with Next.js 16, React 19, Type
 
 1. Install packages with `npm install`.
 2. Create a MySQL database named `multi_school_erp`.
-3. Copy `.env.example` to `.env.local` and set `DATABASE_URL` to your MySQL connection string.
+3. Copy `.env.example` to `.env.local` and configure `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` for your MySQL server.
 4. Configure Razorpay test keys and plan IDs in `.env.local` as described below.
 5. Generate and apply schema updates:
 
@@ -33,7 +33,7 @@ Razorpay manages subscription authorization through its hosted `short_url`. The 
 
 ## Accounts and access
 
-The dashboard requires a server-side session. Create a school group and a user linked to it; create the password hash with `node -e "require('bcryptjs').hash('ChangeMe123!', 12).then(console.log)"`. Never use example credentials in production. Billing actions require the `group_owner`, `group_admin`, or `platform_admin` role. Keep all school-owned records scoped by the authenticated user's school group and/or active school.
+The app and Drizzle CLI use the `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` values from `.env.local`. A separate `DATABASE_URL` is not required. To create or reset the local group-owner account, set `ADMIN_EMAIL` and `ADMIN_PASSWORD` (at least 12 characters) in your shell and run `npm run admin:reset-password`. Optionally set `ADMIN_NAME`. The command creates the default group and campus if needed and does not print the password. Never use example credentials in production. Billing actions require the `group_owner`, `group_admin`, or `platform_admin` role. Keep all school-owned records scoped by the authenticated user's school group and/or active school.
 
 ## Database and sessions
 
